@@ -1,3 +1,4 @@
+from glob import glob
 import pygame
 import os
 
@@ -8,6 +9,22 @@ square = widthS//rows
 brown = (87,16,16)
 white = (255,255,255)
 
-#Black pieces
-#Exemple :
-#blackKnight = pygame.transform.scale(pygame.image.load(os.path.join(".\images", "bKN.png")), (square, square))
+pathPieces = "src\images\pieces"
+pathPromotions = "src\images\promotion"
+
+pieces = ["roi", "generalDeJade", "cavalier", "fou", "generalDargent", "generalDor", "lancier", "pion", "tour"]
+promotions = ["argentDor", "cavalierDor", "chevalDragon", "dragon", "lancierDor", "pionDor"]
+imagesPieces = {}   #{} pour initialiser un dictionnaire en python et [] pour un tableau
+                    #Dictionnaires accessibles en plus que par des indices, par des mots
+
+imagesPromotions = {}
+
+#En python, les variables on 2 niveaux de portés, local ou global.
+#En fonction de leur niveau, les variables vont être répertoriés dans la commande globals() ou locales()
+#Ce sont toutes deux des dictionnaires répertoriant nombreuses méthodes, variables et scripts
+
+for piece in pieces:
+    imagesPieces[piece] = pygame.transform.scale(pygame.image.load(os.path.join(pathPieces, piece + ".png")), (square, square))
+
+for piece in promotions:
+    imagesPromotions[piece] = pygame.transform.scale(pygame.image.load(os.path.join(pathPromotions, piece + ".png")), (square, square))

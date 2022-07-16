@@ -32,6 +32,26 @@
   <ItemGroup>
     <Folder Include="src\" />
     <Folder Include="src\images\" />
+    <Folder Include="src\images\pieces\" />
+    <Folder Include="src\images\promotion\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\images\pieces\cavalier.png" />
+    <Content Include="src\images\pieces\fou.png" />
+    <Content Include="src\images\pieces\generalDargent.png" />
+    <Content Include="src\images\pieces\generalDeJade.png" />
+    <Content Include="src\images\pieces\generalDor.png" />
+    <Content Include="src\images\pieces\lancier.png" />
+    <Content Include="src\images\pieces\pion.png" />
+    <Content Include="src\images\pieces\roi.png" />
+    <Content Include="src\images\pieces\tour.png" />
+    <Content Include="src\images\NomPiece.txt" />
+    <Content Include="src\images\promotion\argentDor.png" />
+    <Content Include="src\images\promotion\cavalierDor.png" />
+    <Content Include="src\images\promotion\chevalDragon.png" />
+    <Content Include="src\images\promotion\dragon.png" />
+    <Content Include="src\images\promotion\lancierDor.png" />
+    <Content Include="src\images\promotion\pionDor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
