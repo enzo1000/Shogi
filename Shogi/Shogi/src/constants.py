@@ -1,4 +1,3 @@
-from glob import glob
 import pygame
 import os
 
@@ -14,14 +13,14 @@ pathPromotions = "src\images\promotion"
 
 pieces = ["roi", "generalDeJade", "cavalier", "fou", "generalDargent", "generalDor", "lancier", "pion", "tour"]
 promotions = ["argentDor", "cavalierDor", "chevalDragon", "dragon", "lancierDor", "pionDor"]
-imagesPieces = {}   #{} pour initialiser un dictionnaire en python et [] pour un tableau
-                    #Dictionnaires accessibles en plus que par des indices, par des mots
 
-imagesPromotions = {}
+imagesPieces = {}   
+imagesPromotions = {}   #{} pour initialiser un dictionnaire en python et [] pour un tableau
+                        #Dictionnaires accessibles en plus que par des indices, par des mots
 
 #En python, les variables on 2 niveaux de portés, local ou global.
 #En fonction de leur niveau, les variables vont être répertoriés dans la commande globals() ou locales()
-#Ce sont toutes deux des dictionnaires répertoriant nombreuses méthodes, variables et scripts
+#Ce sont toutes deux des dictionnaires répertoriant de nombreuses méthodes, variables et scripts ...
 
 for piece in pieces:
     imagesPieces[piece] = pygame.transform.scale(pygame.image.load(os.path.join(pathPieces, piece + ".png")), (square, square))
