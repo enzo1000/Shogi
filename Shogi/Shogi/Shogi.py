@@ -1,4 +1,3 @@
-from turtle import width
 import pygame
 
 from src.constants import *
@@ -14,11 +13,11 @@ def get_position(x,y):  #Méthode servant à convertir la position du clique de la
 
 def main():
     run = True
-    
+
     while run:
         clock.tick(60)  #Prise en compte seulement du 60 FPS (pour un jeu d'échec ça va)
-        
-        window.blit(imagesPieces["roi"], (50,50))  #On affiche le roi en position 50 50
+
+        window.blit(imagesPieces["generalDeJade"], (50, 50))  #On affiche le roi en position 50 50
 
         pygame.display.update()
 
@@ -35,4 +34,5 @@ def main():
                 if pygame.mouse.get_pressed()[0]:                       #Si clique gauche
                     location = pygame.mouse.get_pos()                   #On vient récupérer les coordonnées du clique afin de vérifier s'il y a une pièce ou autre dessous
                     row, col = get_position(location[0], location[1])   #On vient récupérer la case du clique
+
 main()

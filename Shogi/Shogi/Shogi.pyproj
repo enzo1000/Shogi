@@ -28,7 +28,10 @@
     <Compile Include="src\constants.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\Pieces.py">
+    <Compile Include="src\pieces\Fou.py" />
+    <Compile Include="src\pieces\Tour.py" />
+    <Compile Include="src\pieces\Pion.py" />
+    <Compile Include="src\pieces\Pieces.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\__init__.py">
@@ -40,6 +43,7 @@
     <Folder Include="src\images\" />
     <Folder Include="src\images\pieces\" />
     <Folder Include="src\images\promotion\" />
+    <Folder Include="src\pieces\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\images\pieces\cavalier.png" />
