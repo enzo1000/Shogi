@@ -10,13 +10,13 @@ class Lancier(Pieces):
         if self.cote == Regnant:            #Si Regnant alors joueur est en bas du plateau
             for j in range(row-1, -1, -1):  #Vers le haut du plateau
 
-            if Board[j][col] == 0:
-                self.availableMoves.append((j, col))
+                if Board[j][col] == 0:
+                    self.availableMoves.append((j, col))
 
-            elif Board[j][col].cote != self.color:
-                self.availableMoves.append((j, col))
+                elif Board[j][col].cote != self.color:
+                    self.availableMoves.append((j, col))
+                    break
                 break
-            break   #Je crois que ce break ne sert à rien
             
 
         if self.cote == Opposant:   
