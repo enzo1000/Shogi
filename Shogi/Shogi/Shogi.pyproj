@@ -29,7 +29,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\pieces\Cavalier.py" />
-    <Compile Include="src\pieces\King.py" />
+    <Compile Include="src\pieces\GeneralDargent.py" />
+    <Compile Include="src\pieces\GeneralDeJade.py" />
+    <Compile Include="src\pieces\GeneralDor.py" />
+    <Compile Include="src\pieces\Roi.py" />
     <Compile Include="src\pieces\Lancier.py" />
     <Compile Include="src\pieces\Fou.py" />
     <Compile Include="src\pieces\Tour.py" />
