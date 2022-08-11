@@ -1,5 +1,5 @@
 import pygame
-
+from ..Joueur import *
 from ..constants import *
 
 class Pieces:    #On créer une classe Piece

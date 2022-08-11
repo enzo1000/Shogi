@@ -11,10 +11,6 @@ class Roi(Pieces):
         for coli in [self.col-1, self.col, self.col+1]:     #On fait la ligne du haut en premier (les 3 cases en haut de la piece)
             if coli != self.col or rowi != self.row:       #Pour éviter de pouvoir faire bouger le roi sur lui même (sur place)
                 if Board[rowi][coli] >= 0 and Board[rowi][coli] < len(Board[self.row]):   #Si on ne déborde pas alors 
-<<<<<<< HEAD:Shogi/Shogi/src/pieces/King.py
-                    
-=======
->>>>>>> 7113d67480c732863a55630a4ea6371aadee683a:Shogi/Shogi/src/pieces/Roi.py
                     if Board[rowi][coli] == 0:
                         self.availableMoves.append((rowi, coli))
                     elif Board[rowi][coli].cote != self.cote:

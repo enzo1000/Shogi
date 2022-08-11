@@ -25,6 +25,7 @@
     <Compile Include="src\Board.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Joueur.py" />
     <Compile Include="src\constants.py">
       <SubType>Code</SubType>
     </Compile>

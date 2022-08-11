@@ -18,7 +18,8 @@ def main():
     while run:
         clock.tick(60)  #Prise en compte seulement du 60 FPS (pour un jeu d'échec ça va)
 
-        window.blit(imagesPieces["generalDeJade"], (50, 50))  #On affiche le roi en position 50 50
+        window.blit(imagesPiecesReignant["roi"], (50, 50))  #On affiche le roi en position 50 50
+        window.blit(imagesPiecesOpposant["generalDeJade"], (150, 150))
 
         pygame.display.update()
 

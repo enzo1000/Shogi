@@ -7,7 +7,7 @@ class Lancier(Pieces):
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
-        if self.cote == Regnant:            #Si Regnant alors joueur est en bas du plateau
+        if self.cote == Joueur.Regnant:            #Si Regnant alors joueur est en bas du plateau
             for j in range(row-1, -1, -1):  #Vers le haut du plateau
 
                 if Board[j][col] == 0:
@@ -19,7 +19,7 @@ class Lancier(Pieces):
                 break
             
 
-        if self.cote == Opposant:   
+        if self.cote == Joueur.Opposant:   
             for i in range(row+1, len(Board)): #Vers le bas jusqu'au bors du tableau
 
                 if Board[i][col] == 0:

@@ -17,7 +17,7 @@ class Pion(Pieces):
 
         pionMouvement = 0;
 
-        if self.cote == Regnant:                            #Si Regnant alors joueur est en bas du plateau
+        if self.cote == Joueur.Regnant:                            #Si Regnant alors joueur est en bas du plateau
 
             pionMouvement = -1
 
@@ -29,7 +29,7 @@ class Pion(Pieces):
                     if piece.cote != self.cote:                     #Sinon, si la piece est une piece ennemie
                         self.availableMoves.append((row + pionMouvement, col))        #Il peut avancer
        
-        if self.cote == Opposant:                           #Si Opposant alors en haut du plateau
+        if self.cote == Joueur.Opposant:                           #Si Opposant alors en haut du plateau
 
             pionMouvement = 1
 

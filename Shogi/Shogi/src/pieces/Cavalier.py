@@ -7,7 +7,7 @@ class Cavalier(Pieces):
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
-        if self.cote == Regnant:            #Si Regnant alors joueur est en bas du plateau
+        if self.cote == Joueur.Regnant:            #Si Regnant alors joueur est en bas du plateau
             if row - 2 >= 0 and col + 1 < len(Board):
                 if Board[row-2][col+1] == 0 or Board[row-2][col+1].cote != self.cote:
                     self.availableMoves.append((row-2, col+1))
@@ -16,7 +16,7 @@ class Cavalier(Pieces):
                 if Board[row-2][col-1] == 0 or Board[row-2][col-1].cote != self.cote:
                     self.availableMoves.append((row-2, col-1))
 
-        if self.cote == Opposant:   
+        if self.cote == Joueur.Opposant:   
             if row + 2 < len(Board[row]) and col + 1 < len(Board):
                 if Board[row+2][col+1] == 0 or Board[row-2][col+1].cote != self.cote:
                     self.availableMoves.append((row+2, col+1))
