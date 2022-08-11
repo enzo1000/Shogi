@@ -13,13 +13,13 @@ class King(Pieces):
 
             if coli != self.col or rowi != self.row:       #Pour éviter de pouvoir faire bouger le roi sur lui même (sur place)
                 if Board[rowi][coli] >= 0 and Board[rowi][coli] < len(Board[self.row]):   #Si on ne déborde pas alors 
-
+                    
                     if Board[rowi][coli] == 0:
                         self.availableMoves.append((rowi, coli))
 
                     elif Board[rowi][coli].cote != self.cote:
                         self.availableMoves.append((rowi, coli))
-
+        
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
