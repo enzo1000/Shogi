@@ -7,6 +7,7 @@ square = widthS//rows
 
 brown = (87,16,16)
 white = (255,255,255)
+green = (0, 255, 0)
 
 pathPieces = "src\images\pieces"
 pathPromotions = "src\images\promotion"
