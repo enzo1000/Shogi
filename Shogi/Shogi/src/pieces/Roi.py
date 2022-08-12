@@ -6,7 +6,7 @@ class Roi(Pieces):
 
     #Fonction qui pour une ligne donnée, donne les mouvements possibles en parcourant les 3 cases en face de ladite piece
     #Pour expliquer plus simplement, le roi il peut aller partout case par case, avec cette fonction, on simplifie en mémoire le calcul des mouvements
-    # pour la ligne en haut du roi et en bas
+    # pour la ligne en haut du roi, celle du mileu (en supprimant la case du roi) et en bas du roi
     def kingLigneHautBas(self, rowi, Board):
         for coli in [self.col-1, self.col, self.col+1]:     #On fait la ligne du haut en premier (les 3 cases en haut de la piece)
             if coli != self.col or rowi != self.row:       #Pour éviter de pouvoir faire bouger le roi sur lui même (sur place)

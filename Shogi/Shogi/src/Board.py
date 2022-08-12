@@ -1,3 +1,4 @@
+from asyncio import constants
 import pygame
 from pieces.Pieces import *
 from .constants import *
@@ -13,6 +14,7 @@ class Board:
         self.Board = []
         self.createBoard()
 
+    #Attribut à chaques cases du plateau les pièces adéquates à un début de partie
     def createBoard(self):
         for row in range(self.row): #Pour chacune des lignes de notre plateau
             self.Board.append([0 for i in range (self.col)])    #On vient créer le nombre de cases pour la ligne correspondante
@@ -64,20 +66,24 @@ class Board:
         def getPiece(self, row, col):
             return self.Board[row][col]
 
+        #Déplace une pièce à partir de sa position actuelle et sa nouvelle position en paramètre
         def move(self, piece, row, col):
             #Ecriture python de changement de 2 valeurs sur une même ligne sans passer par une 3eme variable tampon
             self.Board[piece.row, piece.col], self.Board[row][col] = self.Board[row][col], self.Board[piece.row][piece.col]
             piece.pieceMove(row, col)
 
+        #Construit le terrain avec un fond marron et des cases blanches
         def drawBoard(self):
             self.Win.fill(brown)
             for row in range(self.row):
                 for col in range(row%2, self.col, 2):
-                    pygame.draw.rect(self.Win, White, (square*(row), square*(col), square, square))
+                    pygame.draw.rect(self.Win, white, (square*(row), square*(col), square, square))
 
+        #Place une pièce à une coordonée donnée 
         def drawPiece(self, piece, Win):
             Win.blit(piece.image, (piece.x, piece.y))
 
+        #Avec l'utilisation de drawPiece permet d'actualiser toutes les pièces sur le terrain
         def drawPieces(self):
             for row in range(self.row):
                 for col in range(self.col):
