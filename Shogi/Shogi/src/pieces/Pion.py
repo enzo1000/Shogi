@@ -1,4 +1,4 @@
-from Pieces import *
+from .Pieces import *
 
 #Classe Pion hérite de la classe Piece
 class Pion(Pieces):  

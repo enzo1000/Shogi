@@ -1,4 +1,4 @@
-from Pieces import *
+from .Pieces import *
 
 class Roi(Pieces):
     def __init__(self, square, image, cote, type, row, col):
@@ -22,3 +22,4 @@ class Roi(Pieces):
         self.kingLigneHautBas(self, row - 1, Board)
         self.kingLigneHautBas(self, row, Board)
         self.kingLigneHautBas(self, row + 1, Board)
+        return self.availableMoves

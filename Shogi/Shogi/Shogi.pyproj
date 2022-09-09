@@ -31,11 +31,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\pieces\Cavalier.py" />
+    <Compile Include="src\pieces\ArgentDor.py" />
+    <Compile Include="src\pieces\CavalierDor.py" />
+    <Compile Include="src\pieces\ChevalDragon.py" />
+    <Compile Include="src\pieces\Dragon.py" />
+    <Compile Include="src\pieces\PionDor.py" />
+    <Compile Include="src\pieces\LancierDor.py" />
+    <Compile Include="src\pieces\Lancier.py" />
     <Compile Include="src\pieces\GeneralDargent.py" />
     <Compile Include="src\pieces\GeneralDeJade.py" />
     <Compile Include="src\pieces\GeneralDor.py" />
     <Compile Include="src\pieces\Roi.py" />
-    <Compile Include="src\pieces\Lancier.py" />
     <Compile Include="src\pieces\Fou.py" />
     <Compile Include="src\pieces\Tour.py" />
     <Compile Include="src\pieces\Pion.py" />

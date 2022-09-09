@@ -1,26 +1,28 @@
 import pygame
 import os
 
-widthS, heightS = 800, 800
+widthS, heightS = 792, 792  #Multiple de 9 sans virgules sinon on peut out of bound avec la souris
 rows, cols = 9,9
 square = widthS//rows
 
 brown = (87,16,16)
 white = (255,255,255)
 green = (0, 255, 0)
+red = (255, 0, 0)
 
 pathPieces = "src\images\pieces"
 pathPromotions = "src\images\promotion"
 
 listesPieces = ["cavalier", "fou", "generalDargent", "generalDor", "lancier", "pion", "tour"]
 promotions = ["argentDor", "cavalierDor", "chevalDragon", "dragon", "lancierDor", "pionDor"]
+pasPromotable = ["ArgentDor", "CavalierDor", "ChevalDragon", "Dragon", "LancierDor", "PionDor", "Roi", "GeneralDeJade", "GeneralDor"]
 
 piecesReignant = listesPieces + ["roi"]
 piecesOpposant = listesPieces + ["generalDeJade"]
 
-imagesPiecesReignant = {}
+imagesPiecesRegnant = {}
 imagesPiecesOpposant = {}
-imagesPromotionsReignant = {}
+imagesPromotionsRegnant = {}
 imagesPromotionsOpposant = {}
 
 #{} pour initialiser un dictionnaire en python et [] pour un tableau
@@ -32,13 +34,13 @@ imagesPromotionsOpposant = {}
 #Ces deux dictionnaires ne sont pas utilisés explicitement ici mais implicitement lors d'appel de variables (ce commentaire est à titre informatif)
 
 for piece in piecesReignant:
-    imagesPiecesReignant[piece] = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(os.path.join(pathPieces, piece + ".png")), (square, square)), 180)
+    imagesPiecesRegnant[piece] = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(os.path.join(pathPieces, piece + ".png")), (square, square)), 180)
 
 for piecePromu in promotions:
-    imagesPromotionsReignant[piece] = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(os.path.join(pathPieces, piece + ".png")), (square, square)), 180)
+    imagesPromotionsRegnant[piecePromu] = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(os.path.join(pathPromotions, piecePromu + ".png")), (square, square)), 180)
 
 for piece in piecesOpposant:
     imagesPiecesOpposant[piece] = pygame.transform.scale(pygame.image.load(os.path.join(pathPieces, piece + ".png")), (square, square))
 
 for piecePromu in promotions:
-    imagesPromotionsOpposant[piece] = pygame.transform.scale(pygame.image.load(os.path.join(pathPieces, piece + ".png")), (square, square))
+    imagesPromotionsOpposant[piecePromu] = pygame.transform.scale(pygame.image.load(os.path.join(pathPromotions, piecePromu + ".png")), (square, square))

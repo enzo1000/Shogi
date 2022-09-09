@@ -3436,7 +3436,7 @@
 											"top": 551,
 											"width": 125.13134765625,
 											"height": 13,
-											"text": "Roi fou"
+											"text": "ChevalDragon"
 										},
 										{
 											"_type": "LabelView",
@@ -4240,7 +4240,7 @@
 											"top": 399,
 											"width": 125.13134765625,
 											"height": 13,
-											"text": "PioDor"
+											"text": "PionDor"
 										},
 										{
 											"_type": "LabelView",
@@ -5495,7 +5495,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGCE2MnuGQi9wo="
 					},
-					"name": "Roi fou",
+					"name": "ChevalDragon",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -5615,7 +5615,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGCE2MnuGQi9wo="
 					},
-					"name": "PioDor",
+					"name": "PionDor",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",

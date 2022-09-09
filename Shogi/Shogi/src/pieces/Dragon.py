@@ -1,12 +1,25 @@
 from .Pieces import *
 
-class Tour(Pieces): 
+class Dragon(Pieces):
 
     def __init__(self, square, image, cote, type, row, col):
         super().__init__(square, image, cote, type, row, col)
 
+    def kingLigneHautBas(self, rowi, Board):
+        for coli in [self.col-1, self.col, self.col+1]:     #On fait la ligne du haut en premier (les 3 cases en haut de la piece)
+            if coli != self.col or rowi != self.row:       #Pour éviter de pouvoir faire bouger le roi sur lui même (sur place)
+                if Board[rowi][coli] >= 0 and Board[rowi][coli] < len(Board[self.row]):   #Si on ne déborde pas alors 
+                    if Board[rowi][coli] == 0:
+                        self.availableMoves.append((rowi, coli))
+                    elif Board[rowi][coli].cote != self.cote:
+                        self.availableMoves.append((rowi, coli))
+
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
+
+        self.kingLigneHautBas(self, row - 1, Board)
+        self.kingLigneHautBas(self, row, Board)
+        self.kingLigneHautBas(self, row + 1, Board)
 
         for i in range(row+1, len(Board)): #Vers le bas jusqu'au bors du tableau
 
@@ -53,3 +66,6 @@ class Tour(Pieces):
             break
 
         return self.availableMoves
+
+
+

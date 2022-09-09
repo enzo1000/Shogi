@@ -1,6 +1,6 @@
-from .Roi import *
+from .GeneralDor import *
 
-class GeneralDeJade(Roi):
+class LancierDor(GeneralDor):
     def __init__(self, square, image, cote, type, row, col):
         super().__init__(square, image, cote, type, row, col)
 

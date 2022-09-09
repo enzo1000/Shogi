@@ -1,4 +1,4 @@
-from Pieces import *
+from .Pieces import *
 
 class Lancier(Pieces):
     def __init__(self, square, image, cote, type, row, col):
@@ -29,7 +29,6 @@ class Lancier(Pieces):
                     self.availableMoves.append((i, col))
                     break
                 break
-
 
 
 

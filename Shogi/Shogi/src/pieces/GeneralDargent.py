@@ -1,4 +1,4 @@
-from Pieces import *
+from .Pieces import *
 
 class GeneralDargent(Pieces):
     def __init__(self, square, image, cote, type, row, col):
