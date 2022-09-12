@@ -4,9 +4,9 @@ from .pieces import *
 from .constants import *
 
 class Board:
-    def __init__ (self, widthS, heightS, rows, cols, square, window):
-        self.width = widthS
-        self.height = heightS
+    def __init__ (self, Width, Height, rows, cols, square, window):
+        self.width = Width
+        self.height = Height
         self.row = rows
         self.col = cols
         self.square = square

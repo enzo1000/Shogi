@@ -1,9 +1,9 @@
 Roi : Osho
 Général de jade : Gyokusho
 Tour / Chariot : Hisha			|	Dragon / Roi Dragon : Ryuo
-Fou : Kakugyo				|	Cheval Dragon / Dragon / roi fou : Ryuma
+Fou : Kakugyo				|	Cheval Dragon / roi fou : Ryuma
 Général d'or / or : Kinsho
 Général d'argent / argent : Ginsho	|	Argent d'or : Narigin
 Cavalier : Keima			|	Cavalier d'or : Narikei
 Lancier : Kyosha			|	Lancier d'or : Narikyo
-Piont : Fuhyo				|	Pion d'or : tokin
+Pion : Fuhyo				|	Pion d'or : tokin

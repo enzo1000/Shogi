@@ -8,7 +8,7 @@ from src.pieces.Pieces import *
 pygame.init()
 
 clock = pygame.time.Clock() #La même que Time.deltaTime() sous unity
-window = pygame.display.set_mode((widthS, heightS)) #On créer un écran (Surface)
+window = pygame.display.set_mode((1200, 900)) #On créer un écran (Surface)
 
 def getPosition(x,y):  #Méthode servant à convertir la position du clique de la souris en case de clique de la souris
     row = y//square     #Ligne égale à position du clique divisé par nb de case du jeu
@@ -31,8 +31,6 @@ def main():
         if game.checkGame():
             gameOver = True
 
-        #pygame.display.update() ##Nécessaire de le faire 2 fois ? (1 fois dans game.updateWindow() et 1 fois ici, dans le main)
-
         for event in pygame.event.get():    #Définitions des évènements qui peuvent arriver durant la partie
             if event.type == pygame.QUIT:   #Si l'on quitte le jeu
                 run = False
@@ -45,8 +43,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN and not gameOver:  #Si l'on appuie sur la souris et que l'on est pas en game_over alors
                 if pygame.mouse.get_pressed()[0]:                       #Si clique gauche
                     location = pygame.mouse.get_pos()                   #On vient récupérer les coordonnées du clique afin de vérifier s'il y a une pièce ou autre dessous
-                    if location[0] <= 792 and location[1] <= 792:
-                        row, col = getPosition(location[0], location[1])    #On vient récupérer la case du clique
-                        game.select(row, col)
-
+                    if location[0] <= widthS and location[1] <= heightS:
+                        game.select(location)
+                    else:
+                        game.selectPara(location)
 main()

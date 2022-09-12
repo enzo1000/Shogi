@@ -1,7 +1,7 @@
 import pygame
 import os
 
-widthS, heightS = 792, 792  #Multiple de 9 sans virgules sinon on peut out of bound avec la souris
+widthS, heightS = 900, 900  #Multiple de 9 sans virgules sinon on peut out of bound avec la souris
 rows, cols = 9,9
 square = widthS//rows
 

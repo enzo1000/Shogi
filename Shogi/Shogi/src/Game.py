@@ -16,8 +16,8 @@ class Game:
         self.selected = None
         self.turn = Joueur.Regnant
         self.validMoves = []
-        self.RegnantPiecesLeft = 20
-        self.OpposantPiecesLeft = 20
+        self.RegnantPiecesPara = []
+        self.OpposantPiecesPara = []
 
     #Sert à afficher les pièces à leurs nouvel emplacement
     #Est appelé à chaques frames (60/s)
@@ -123,7 +123,7 @@ class Game:
 
     #Réinitialise le placement des pièces sur le plateau
     def reset(self):
-        self.Board = Board(widthS, heightS, rows, cols, square, self.window)    #Re créer le plateau à partir des informations dans constantes
+        self.Board = Board(self.Board.width, self.Board.height, rows, cols, square, self.window)    #Re créer le plateau à partir des informations dans constantes
         self.selected = None    #réinitialise la valeur de selected
         self.RegnantPiecesLeft, self.OpposantPiecesLeft = 20,20 #Réinitialise le nb de pièces de chaques joueur
         self.validMoves = []    #réinitialise les déplacements disponibles
@@ -143,7 +143,7 @@ class Game:
             if caseVisee == 0 or caseVisee.cote != self.selected.cote:  #Si la case visée pour le mouvement est vide ou correspond à une pièce adverse
                 #if self.simulateMove(self.selected, row, col):         #Cette méthode pose pb pour le déroulé du programme, il faut l'investiguer
 
-                self.remove(self.Board.Board, self.selected, rowVisee, colVisee)
+                self.remove(self.Board.Board, self.Board.Board[rowVisee][colVisee], rowVisee, colVisee)
                 self.Board.move(self.selected, rowVisee, colVisee)
                 self.validMoves = []    #On vide la liste des mouvements
 
@@ -194,17 +194,18 @@ class Game:
                     piece.isPromotable = True
                 elif rowInit <= 2:                  #Si on sort de la zone de promotion
                     piece.isPromotable = True
-                else: 
+                else:
                     piece.isPromotable = False
             else:                                   #Coté regnant cette fois
-                if row >= 6:                       
+                if row >= 6:
                     piece.isPromotable = True
-                elif rowInit >= 6:                  
+                elif rowInit >= 6:
                     piece.isPromotable = True
                 else:
                     piece.isPromotable = False
             self.updateWindow()
 
+    #Méthode de débug
     def printBoard(self):
         for row in range(0, len(self.Board.Board)):
             for col in range(0, len(self.Board.Board[row])):
@@ -213,12 +214,13 @@ class Game:
     #Fonction qui permet, à partir d'un clique du joueur, de sélectionner la pièce sur laquelle le joueur a cliqué
     #Si le joueur a cliqué sur une pièce, cette pièce est alors stockée dans l'attribut selected et on affiche ses mouvements
     #Sinon on supprime les mouvements affichés et on change de pièce
-    def select(self, row, col):
+    def select(self, location):
+        row, col = self.getPosition(location[0], location[1])    #On vient récupérer la case du clique
         if self.selected:               #Si on a déjà sélectionné une pièce
             move = self._move(row, col) #Si on clique sur un déplacement possible pour la pièce sélectionnée, déplace la pièce et retourne True
             if not move:                #Si on clique sur une case qui n'est pas un déplacement de self.selected
                 self.selected = None    #On déselectionne la pièce 
-                self.select(row, col)   #On re boucle sur la méthode
+                self.select(location)   #On re boucle sur la méthode
         else:
             piece = self.Board.getPiece(row, col)
             if piece != 0 and self.turn == piece.cote:
@@ -232,10 +234,12 @@ class Game:
         if board[row][col] != 0:
             if board[row][col].cote == Joueur.Regnant:
                 board[row][col] = 0
-                self.RegnantPiecesLeft -= 1
+                self.RegnantPiecesPara += piece.type
             else:
                 board[row][col] = 0
-                self.OpposantPiecesLeft -= 1
+                self.OpposantPiecesPara += piece.type
+        print(self.RegnantPiecesPara)
+        print(self.OpposantPiecesPara)
         #print("RegnantPiecesLeft : ", self.RegnantPiecesLeft)
         #print("OpposantPiecesLeft : ", self.OpposantPiecesLeft)
 
@@ -246,6 +250,7 @@ class Game:
                 row, col = pos[0], pos[1]
                 pygame.draw.circle(self.window, green, (col*self.square + self.square//2, row*self.square + self.square//2), self.square//8) #Pour bien mettre au centre du carré et pas dans un coin
 
+    #Affiche un rond rouge sur la pièce qui peut être promu
     def drawPromotion(self):
         if self.selected is not None and self.selected.isPromotable == True:
             row, col = self.selected.row, self.selected.col
@@ -255,3 +260,11 @@ class Game:
         row = y//square     #Ligne égale à position du clique divisé par nb de case du jeu
         col = x//square     # // mais avec les colonnes
         return row, col
+
+    ##Section parachutage
+
+    def selectPara(self, location):
+        print("Tu parachute papapa")
+
+    def drawPiecePara(self):
+        pass
