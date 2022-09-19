@@ -92,14 +92,14 @@ class Board:
 
                 if row == 3:
                     if col == self.col + 0:
-                        self.Side[row][col] = Pieces.Pion(self.square, imagesPiecesRegnant["pion"], Joueur.Opposant, "Pion", row, col)
+                        self.Side[row][col] = Pieces.Pion(self.square, imagesPiecesOpposant["pion"], Joueur.Opposant, "Pion", row, col)
 
     #Retourne la pièce sur la case aux coordonnées données
     #Retourne 0 si la case est "vide" (ne contient pas de pièce)
     def getPiece(self, row, col):
         return self.Board[row][col]
 
-    def getSidePiece(self, row, col):
+    def getSideType(self, row, col):
         return self.Side[row][col]
 
     #Déplace une pièce à partir de sa position actuelle et sa nouvelle position en paramètre

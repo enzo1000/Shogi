@@ -268,55 +268,66 @@ class Game:
     def selectPara(self, location):
         row, col = self.getPosition(location[0], location[1])
         if self.Board.Side[row][col] != 0:
-            piece = self.Board.getSidePiece(row, col)
+            type = self.Board.getSideType(row, col)
 
             if self.turn == Joueur.Opposant:
+                #Enrichir la classe Joueur, nottament avec le cimetiere
+                image = imagesPiecesOpposant
                 cimetiere = self.OpposantPiecesPara
             else:
+                image = imagesPiecesRegnant
                 cimetiere = self.RegnantPiecesPara
 
-            if piece.type == "Pion":
+            if type.type == "Pion":
                 if cimetiere.__contains__("Pion" or "PionDor"):
+                    piece = Pion(self.square, image["pion"], self.turn, "Pion", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(piece.type))
+                    print("Pas assez de " + str(type.type))
 
-            elif piece.type == "Tour":
+            elif type.type == "Tour":
                 if cimetiere.__contains__("Tour" or "Dragon"):
+                    piece = Tour(self.square, image["tour"], self.turn, "Tour", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(piece.type))
+                    print("Pas assez de " + str(type.type))
 
-            elif piece.type == "Fou":
+            elif type.type == "Fou":
                 if cimetiere.__contains__("Fou" or "ChevalDragon"):
+                    piece = Fou(self.square, image["fou"], self.turn, "Fou", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(piece.type))
+                    print("Pas assez de " + str(type.type))
 
-            elif piece.type == "GeneralDargent":
+            elif type.type == "GeneralDargent":
                 if cimetiere.__contains__("GeneralDargent" or "ArgentDor"):
+                    piece = GeneralDargent(self.square, image["generalDargent"], self.turn, "GeneralDargent", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(piece.type))
+                    print("Pas assez de " + str(type.type))
 
-            elif piece.type == "Lancier":
+            elif type.type == "Lancier":
                 if cimetiere.__contains__("Lancier" or "LancierDor"):
+                    piece = Lancier(self.square, image["lancier"], self.turn, "Lancier", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(piece.type))
+                    print("Pas assez de " + str(type.type))
 
-            elif piece.type == "Cavalier":
+            elif type.type == "Cavalier":
                 if cimetiere.__contains__("Cavalier" or "CavalierDor"):
+                    piece = Cavalier(self.square, image["cavalier"], self.turn, "Cavalier", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(piece.type))
+                    print("Pas assez de " + str(type.type))
 
-            elif piece.type == "GeneralDor":
+            elif type.type == "GeneralDor":
                 if cimetiere.__contains__("GeneralDor"):
+                    piece = GeneralDor(self.square, image["generalDor"], self.turn, "GeneralDor", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(piece.type))
+                    print("Pas assez de " + str(type.type))
 
+    #TODO, séparer la méthode en 2 comme pour promotion
     def dropPara(self, piece):      #Vérifier les règles de parachutage
 
         pieceFictive = copy(piece)      #Pour ne pas copier la référence
@@ -326,24 +337,70 @@ class Game:
         for row in range(0, len(BoardFictif.Board)):
             for col in range(0, len(BoardFictif.Board[row])):
                 if BoardFictif.Board[row][col] == 0:   #Pour chacunes des cases vides
-                    if piece.type == "Pion":                               
+                    if piece.type == "Pion":
                         canBePara = self.pionVerifColPara(col, BoardFictif.Board)  #Interdit sur une même colonne où ce situe un pion (non promu)
-
                     if canBePara:
-                        canBePara = self.pieceDeplacementPara(pieceFictive, row, col, BoardFictif)   #Verif si la piece peut se déplacer TODO : seulement sur la dernière ligne du terrain
+                        canBePara = self.pieceDeplacementPara(pieceFictive, row)   #Verif si la piece peut se déplacer TODO : seulement sur la dernière ligne du terrain
                     #Exemple de la tour bloquée par ses propres alliées
                     #TODO Interdit de mettre echec et mat le roi avec un pion
                     if canBePara:
                         self.validPara.append((row, col))
 
+        self.updateWindow()
         
-    def pieceDeplacementPara(self, piece, row, col, BoardFictif):
-        #Créer un board fictif de 4x4 et placer la piece dessus en fonction de sa ligne et vérifier si elle peut se déplacer
-        deplacement = piece.getAvailableMoves(row, col, BoardFictif.Board)
-        #print("debugPrint deplacement " + str(piece.type) + str(deplacement))
-        if len(deplacement) > 0:
+        canBePara2 = True
+        while canBePara2 == True:                #Tant que le joueur n'a pas cliqué
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:   #Si l'on quitte le jeu
+                    quit()
+
+                if event.type == pygame.MOUSEBUTTONDOWN:                            #Si l'utilisateur appuie sur un bouton
+                    if pygame.mouse.get_pressed()[0]:                               #Si c'est un clique gauche
+                        location = pygame.mouse.get_pos()                           #On vient récupérer les coordonnées du clique   #Faudra mettre en place une vérification sui le joueur clique en dehors du terrain
+                        rowClique, colClique = self.getPosition(location[0], location[1])       #On vient récupérer la case du clique
+                        if (rowClique, colClique) in self.validPara:
+                            #Parachutage
+                            piece.row = rowClique
+                            piece.col = colClique
+                            piece.calcPos()
+                            self.Board.Board[rowClique][colClique] = piece
+                            print(self.Board.Board[rowClique][colClique])
+
+                            self.validPara = []
+                            #Pas forcément le plus jolie mais j'ai pas trouvé mieux pour le moment
+                            if self.turn == Joueur.Opposant:
+                                #imagesPiecesOpposant
+                                pass
+                            else:
+                                #imagesPiecesRegnant
+                                pass
+                            canBePara2 = False
+                        else:
+                            #Pas de parachutage
+                            self.validPara = []
+                            canBePara2 = False
+        
+    def pieceDeplacementPara(self, pieceFictive, row):
+        BoardFictif = []
+        for i in range(0, rows):
+            BoardFictif.append([0 for i in range(3)])  #Pour 9 lignes, créer un tableau a 3 colonnes
+        #print(BoardFictif)
+        if self.turn == Joueur.Opposant:
+            if row < 3:
+                BoardFictif[row][1] = pieceFictive  #On place la piece sur la bonne ligne (colonne pas importante)
+                moves = BoardFictif[row][1].getAvailableMoves(row, 1, BoardFictif)
+                print(BoardFictif)
+                print(moves)
+                if len(moves) == 0:
+                    return False
             return True
-        return False
+        else:
+            if row > 5:
+                BoardFictif[row][1] = pieceFictive  #On place la piece sur la bonne ligne (colonne pas importante)
+                moves = BoardFictif[row][1].getAvailableMoves(row, 1, BoardFictif)
+                if len(moves) == 0:
+                    return False
+            return True
 
     def pionVerifColPara(self, col, BoardFictif):
         for rowi in range (0, len(BoardFictif)):
