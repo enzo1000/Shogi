@@ -3,6 +3,7 @@ from .Board import Board
 from .constants import *
 from .Joueur import *
 from .pieces.Pieces import *
+from copy import copy
 
 #Classe qui sert d'interface pour le terrain, elle sert à actualiser la position des pièces
 # à changer le tour du joueur et à afficher les mouvements possibles
@@ -16,6 +17,7 @@ class Game:
         self.selected = None
         self.turn = Joueur.Regnant
         self.validMoves = []
+        self.validPara = []
         self.RegnantPiecesPara = []
         self.OpposantPiecesPara = []
 
@@ -24,8 +26,10 @@ class Game:
     def updateWindow(self):
         self.Board.drawBoard()      #Construit le terrain avec un fond marron et des cases blanches
         self.Board.drawPieces()     #Avec l'utilisation de drawPiece permet d'actualiser toutes les pièces sur le terrain
+        self.Board.drawSide()
         self.drawAvailableMoves()   #Affiche en vert les cases où la pièce peut se déplacer
         self.drawPromotion()
+        self.drawPara()
         pygame.display.update()     #Actualise l'écran
 
     def checkGame(self):
@@ -117,7 +121,6 @@ class Game:
                 return True
             else:
                 return False
-
         else:
             return True
 
@@ -170,7 +173,6 @@ class Game:
         while promotionLoop == False:           #Tant que le joueur n'a pas cliqué
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:   #Si l'on quitte le jeu
-                    run = False
                     quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:                            #Si l'utilisateur appuie sur un bouton
@@ -234,10 +236,10 @@ class Game:
         if board[row][col] != 0:
             if board[row][col].cote == Joueur.Regnant:
                 board[row][col] = 0
-                self.RegnantPiecesPara += piece.type
+                self.OpposantPiecesPara.append(piece.type)
             else:
                 board[row][col] = 0
-                self.OpposantPiecesPara += piece.type
+                self.RegnantPiecesPara.append(piece.type)
         print(self.RegnantPiecesPara)
         print(self.OpposantPiecesPara)
         #print("RegnantPiecesLeft : ", self.RegnantPiecesLeft)
@@ -264,7 +266,95 @@ class Game:
     ##Section parachutage
 
     def selectPara(self, location):
-        print("Tu parachute papapa")
+        row, col = self.getPosition(location[0], location[1])
+        if self.Board.Side[row][col] != 0:
+            piece = self.Board.getSidePiece(row, col)
 
-    def drawPiecePara(self):
-        pass
+            if self.turn == Joueur.Opposant:
+                cimetiere = self.OpposantPiecesPara
+            else:
+                cimetiere = self.RegnantPiecesPara
+
+            if piece.type == "Pion":
+                if cimetiere.__contains__("Pion" or "PionDor"):
+                    self.dropPara(piece)
+                else:
+                    print("Pas assez de " + str(piece.type))
+
+            elif piece.type == "Tour":
+                if cimetiere.__contains__("Tour" or "Dragon"):
+                    self.dropPara(piece)
+                else:
+                    print("Pas assez de " + str(piece.type))
+
+            elif piece.type == "Fou":
+                if cimetiere.__contains__("Fou" or "ChevalDragon"):
+                    self.dropPara(piece)
+                else:
+                    print("Pas assez de " + str(piece.type))
+
+            elif piece.type == "GeneralDargent":
+                if cimetiere.__contains__("GeneralDargent" or "ArgentDor"):
+                    self.dropPara(piece)
+                else:
+                    print("Pas assez de " + str(piece.type))
+
+            elif piece.type == "Lancier":
+                if cimetiere.__contains__("Lancier" or "LancierDor"):
+                    self.dropPara(piece)
+                else:
+                    print("Pas assez de " + str(piece.type))
+
+            elif piece.type == "Cavalier":
+                if cimetiere.__contains__("Cavalier" or "CavalierDor"):
+                    self.dropPara(piece)
+                else:
+                    print("Pas assez de " + str(piece.type))
+
+            elif piece.type == "GeneralDor":
+                if cimetiere.__contains__("GeneralDor"):
+                    self.dropPara(piece)
+                else:
+                    print("Pas assez de " + str(piece.type))
+
+    def dropPara(self, piece):      #Vérifier les règles de parachutage
+
+        pieceFictive = copy(piece)      #Pour ne pas copier la référence
+        BoardFictif = copy(self.Board)
+        canBePara = True
+
+        for row in range(0, len(BoardFictif.Board)):
+            for col in range(0, len(BoardFictif.Board[row])):
+                if BoardFictif.Board[row][col] == 0:   #Pour chacunes des cases vides
+                    if piece.type == "Pion":                               
+                        canBePara = self.pionVerifColPara(col, BoardFictif.Board)  #Interdit sur une même colonne où ce situe un pion (non promu)
+
+                    if canBePara:
+                        canBePara = self.pieceDeplacementPara(pieceFictive, row, col, BoardFictif)   #Verif si la piece peut se déplacer TODO : seulement sur la dernière ligne du terrain
+                    #Exemple de la tour bloquée par ses propres alliées
+                    #TODO Interdit de mettre echec et mat le roi avec un pion
+                    if canBePara:
+                        self.validPara.append((row, col))
+
+        
+    def pieceDeplacementPara(self, piece, row, col, BoardFictif):
+        #Créer un board fictif de 4x4 et placer la piece dessus en fonction de sa ligne et vérifier si elle peut se déplacer
+        deplacement = piece.getAvailableMoves(row, col, BoardFictif.Board)
+        #print("debugPrint deplacement " + str(piece.type) + str(deplacement))
+        if len(deplacement) > 0:
+            return True
+        return False
+
+    def pionVerifColPara(self, col, BoardFictif):
+        for rowi in range (0, len(BoardFictif)):
+            if BoardFictif[rowi][col] != 0:                    #Si une piece
+                if BoardFictif[rowi][col].cote == self.turn:   #Si de la même équipe
+                    if BoardFictif[rowi][col].type == "Pion":  #Si c'est un Pion (non promu)
+                        return False
+        return True
+
+    def drawPara(self):
+        if len(self.validPara) > 0:
+            for pos in self.validPara:
+                row, col = pos[0], pos[1]
+                pygame.draw.circle(self.window, cyan, (col*self.square + self.square//2, row*self.square + self.square//2), self.square//8) #Pour bien mettre au centre du carré et pas dans un coin

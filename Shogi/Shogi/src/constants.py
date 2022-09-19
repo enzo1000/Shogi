@@ -9,6 +9,7 @@ brown = (87,16,16)
 white = (255,255,255)
 green = (0, 255, 0)
 red = (255, 0, 0)
+cyan = (0, 255, 255)
 
 pathPieces = "src\images\pieces"
 pathPromotions = "src\images\promotion"
