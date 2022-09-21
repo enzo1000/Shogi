@@ -268,7 +268,7 @@ class Game:
     def selectPara(self, location):
         row, col = self.getPosition(location[0], location[1])
         if self.Board.Side[row][col] != 0:
-            type = self.Board.getSideType(row, col)
+            pieceSelect = self.Board.getSideType(row, col)
 
             if self.turn == Joueur.Opposant:
                 #Enrichir la classe Joueur, nottament avec le cimetiere
@@ -278,54 +278,55 @@ class Game:
                 image = imagesPiecesRegnant
                 cimetiere = self.RegnantPiecesPara
 
-            if type.type == "Pion":
-                if cimetiere.__contains__("Pion" or "PionDor"):
+            if pieceSelect.type == "Pion":
+                #if cimetiere.__contains__("Pion" or "PionDor"):
+                if "Pion" in str(cimetiere):
                     piece = Pion(self.square, image["pion"], self.turn, "Pion", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(type.type))
+                    print("Pas assez de " + str(pieceSelect.type))
 
-            elif type.type == "Tour":
+            elif pieceSelect.type == "Tour":
                 if cimetiere.__contains__("Tour" or "Dragon"):
                     piece = Tour(self.square, image["tour"], self.turn, "Tour", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(type.type))
+                    print("Pas assez de " + str(pieceSelect.type))
 
-            elif type.type == "Fou":
+            elif pieceSelect.type == "Fou":
                 if cimetiere.__contains__("Fou" or "ChevalDragon"):
                     piece = Fou(self.square, image["fou"], self.turn, "Fou", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(type.type))
+                    print("Pas assez de " + str(pieceSelect.type))
 
-            elif type.type == "GeneralDargent":
+            elif pieceSelect.type == "GeneralDargent":
                 if cimetiere.__contains__("GeneralDargent" or "ArgentDor"):
                     piece = GeneralDargent(self.square, image["generalDargent"], self.turn, "GeneralDargent", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(type.type))
+                    print("Pas assez de " + str(pieceSelect.type))
 
-            elif type.type == "Lancier":
+            elif pieceSelect.type == "Lancier":
                 if cimetiere.__contains__("Lancier" or "LancierDor"):
                     piece = Lancier(self.square, image["lancier"], self.turn, "Lancier", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(type.type))
+                    print("Pas assez de " + str(pieceSelect.type))
 
-            elif type.type == "Cavalier":
+            elif pieceSelect.type == "Cavalier":
                 if cimetiere.__contains__("Cavalier" or "CavalierDor"):
                     piece = Cavalier(self.square, image["cavalier"], self.turn, "Cavalier", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(type.type))
+                    print("Pas assez de " + str(pieceSelect.type))
 
-            elif type.type == "GeneralDor":
+            elif pieceSelect.type == "GeneralDor":
                 if cimetiere.__contains__("GeneralDor"):
                     piece = GeneralDor(self.square, image["generalDor"], self.turn, "GeneralDor", 0, 0)
                     self.dropPara(piece)
                 else:
-                    print("Pas assez de " + str(type.type))
+                    print("Pas assez de " + str(pieceSelect.type))
 
     #TODO, séparer la méthode en 2 comme pour promotion
     def dropPara(self, piece):      #Vérifier les règles de parachutage
@@ -369,11 +370,10 @@ class Game:
                             self.validPara = []
                             #Pas forcément le plus jolie mais j'ai pas trouvé mieux pour le moment
                             if self.turn == Joueur.Opposant:
-                                #imagesPiecesOpposant
-                                pass
+                                self.OpposantPiecesPara.remove(piece.type)
                             else:
-                                #imagesPiecesRegnant
-                                pass
+                                self.RegnantPiecesPara.remove(piece.type)
+                            self.changeTurn()
                             canBePara2 = False
                         else:
                             #Pas de parachutage
@@ -389,8 +389,8 @@ class Game:
             if row < 3:
                 BoardFictif[row][1] = pieceFictive  #On place la piece sur la bonne ligne (colonne pas importante)
                 moves = BoardFictif[row][1].getAvailableMoves(row, 1, BoardFictif)
-                print(BoardFictif)
-                print(moves)
+                #print(BoardFictif)
+                #print(moves)
                 if len(moves) == 0:
                     return False
             return True
