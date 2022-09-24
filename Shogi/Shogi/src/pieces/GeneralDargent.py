@@ -7,7 +7,7 @@ class GeneralDargent(Pieces):
     def generalLigneHautBas(self, rowi, Board):
          for coli in [self.col-1, self.col, self.col+1]:     #On fait la ligne du haut en premier (les 3 cases en haut de la piece)
              if coli != self.col or rowi != self.row:
-                if Board[rowi][coli] >= 0 and Board[rowi][coli] < len(Board[self.row]):   #Si on ne déborde pas alors 
+                if Board[rowi][coli] >= 0 and Board[rowi][coli] < len(Board[self.row]):   #Si on ne deborde pas alors 
                     if Board[rowi][coli] == 0:
                         self.availableMoves.append((rowi, coli))
                     elif Board[rowi][coli].cote != self.cote:

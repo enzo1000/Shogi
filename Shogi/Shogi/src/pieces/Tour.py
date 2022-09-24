@@ -8,7 +8,7 @@ class Tour(Pieces):
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
-        for i in range(row+1, len(Board)): #Vers le bas jusqu'au bors du tableau
+        for i in range(row+1, len(Board)): #Vers le bas jusqu au bors du tableau
 
             if Board[i][col] == 0:
                 self.availableMoves.append((i, col))
@@ -19,7 +19,7 @@ class Tour(Pieces):
 
             break
 
-        for j in range(row-1, -1, -1):  #On va de row-1 à -1 avec un pas de -1 par -1 (-1 exclue) vers le haut
+        for j in range(row-1, -1, -1):  #On va de row-1 a -1 avec un pas de -1 par -1 (-1 exclue) vers le haut
 
             if Board[j][col] == 0:
                 self.availableMoves.append((j, col))
@@ -41,7 +41,7 @@ class Tour(Pieces):
 
             break
 
-        for l in range(col-1, -1, -1):  #On va de col-1 à -1 avec un pas de -1 par -1 (-1 exclue) vers la gauche
+        for l in range(col-1, -1, -1):  #On va de col-1 a -1 avec un pas de -1 par -1 (-1 exclue) vers la gauche
 
             if Board[row][l] == 0:
                 self.availableMoves.append((row, l))

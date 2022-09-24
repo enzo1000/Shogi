@@ -2,26 +2,26 @@ from ..Joueur import *
 from ..constants import *
 from ..pieces import *
 
-#Je me rend compte lors du test du programme qu'il n'est pas possible de faire de l'héritage en python
-# dans différents fichiers tel que le java par exemple.
-#Je garde alors les fichiers séparés mais rajoute leurs contenu au sein du fichier Pieces.py
+#Je me rend compte lors du test du programme qu il n est pas possible de faire de l heritage en python
+# dans differents fichiers tel que le java par exemple.
+#Je garde alors les fichiers separes mais rajoute leurs contenu au sein du fichier Pieces.py
 
-class Pieces:    #On créer une classe Pieces
+class Pieces:    #On creer une classe Pieces
     def __init__(self, square, image, cote, type, row, col):   #Constructeur prenant
         self.square = square        #Dimension ?
         self.image = image          #Image de la piece
-        self.cote = cote            #Si le joueur a un roi ou un général de jade    (Regnant ou Opposant)
+        self.cote = cote            #Si le joueur a un roi ou un general de jade    (Regnant ou Opposant)
         self.row = row              #Position ligne ?
         self.col = col              #Position colonne ?
         self.type = type            #Type (roi, cavalier ...)
-        self.x = 0                  #Position en colonnes pour x * square (la taille d'un carré) pour avoir les coordonnées de la piece sur le terrain
+        self.x = 0                  #Position en colonnes pour x * square (la taille d un carre) pour avoir les coordonnees de la piece sur le terrain
         self.y = 0                  #Idem mais pour les lignes
-        self.availableMoves = []    #Liste des mouvements possibles pour la pièce
+        self.availableMoves = []    #Liste des mouvements possibles pour la piece
         self.calcPos()
         self.isPromotable = False
     
-    #Méthode traitant du déplacement de la pièce
-    #On récupère la ligne et la colonne de la pièce puis on appel la méthode calc_pos()
+    #Methode traitant du deplacement de la piece
+    #On recupere la ligne et la colonne de la piece puis on appel la methode calc_pos()
     ##Fonctionnel
     def pieceMove(self, row, col):
         #print(str(row) + str(col) + " | " + str(self.row) + str(self.col))
@@ -29,13 +29,13 @@ class Pieces:    #On créer une classe Pieces
         self.col = col
         self.calcPos()
 
-    #Calcul des coordonnées de la pièce afin de l'afficher à un endroit 
+    #Calcul des coordonnees de la piece afin de l afficher a un endroit 
     ##Fonctionnel
     def calcPos(self):
         self.x = self.col * self.square
         self.y = self.row * self.square
 
-    def clearAvailableMoves(self):    #Méthode supprimant la liste des déplacements disponible pour une pièce afin de les re créers
+    def clearAvailableMoves(self):    #Methode supprimant la liste des deplacements disponible pour une piece afin de les re creers
         if len(self.availableMoves) > 0:
             self.availableMoves = []
 
@@ -63,7 +63,7 @@ class Lancier(Pieces):
                     break
             
         if self.cote == Joueur.Opposant:
-            for i in range(row-1, -1, -1): #Vers le bas jusqu'au bors du tableau
+            for i in range(row-1, -1, -1): #Vers le bas jusqu au bors du tableau
 
                 if Board[i][col] != 0:
                     if Board[i][col].cote != self.cote:
@@ -202,14 +202,14 @@ class Roi(Pieces):
     def __init__(self, square, image, cote, type, row, col):
         super().__init__(square, image, cote, type, row, col)
 
-    #Fonction qui pour une ligne donnée, donne les mouvements possibles en parcourant les 3 cases en face de ladite piece
-    #Pour expliquer plus simplement, le roi il peut aller partout case par case, avec cette fonction, on simplifie en mémoire le calcul des mouvements
+    #Fonction qui pour une ligne donnee, donne les mouvements possibles en parcourant les 3 cases en face de ladite piece
+    #Pour expliquer plus simplement, le roi il peut aller partout case par case, avec cette fonction, on simplifie en memoire le calcul des mouvements
     # pour la ligne en haut du roi, celle du milieu (en supprimant la case du roi) et en bas du roi
     def kingLigneHautBas(self, rowi, Board):
         for coli in [self.col-1, self.col, self.col+1]:     #On fait la ligne du haut en premier (les 3 cases en haut de la piece)
             if rowi >= 0 and rowi < len(Board):
                 if coli >= 0 and coli < len(Board[rowi]):
-                    if coli != self.col or rowi != self.row:        #Pour éviter de pouvoir faire bouger le roi sur lui même (sur place)
+                    if coli != self.col or rowi != self.row:        #Pour eviter de pouvoir faire bouger le roi sur lui meme (sur place)
                         if Board[rowi][coli] == 0:
                             self.availableMoves.append((rowi, coli))
                         elif Board[rowi][coli].cote != self.cote:
@@ -230,7 +230,7 @@ class Tour(Pieces):
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
-        for i in range(row+1, len(Board)): #Vers le bas jusqu'au bors du tableau
+        for i in range(row+1, len(Board)): #Vers le bas jusqu au bors du tableau
 
             if Board[i][col] == 0:
                 self.availableMoves.append((i, col))
@@ -241,7 +241,7 @@ class Tour(Pieces):
             else:
                 break
 
-        for j in range(row-1, -1, -1):  #On va de row-1 à -1 avec un pas de -1 par -1 (-1 exclue) vers le haut
+        for j in range(row-1, -1, -1):  #On va de row-1 a -1 avec un pas de -1 par -1 (-1 exclue) vers le haut
 
             if Board[j][col] == 0:
                 self.availableMoves.append((j, col))
@@ -263,7 +263,7 @@ class Tour(Pieces):
             else:
                 break
 
-        for l in range(col-1, -1, -1):  #On va de col-1 à -1 avec un pas de -1 par -1 (-1 exclue) vers la gauche
+        for l in range(col-1, -1, -1):  #On va de col-1 a -1 avec un pas de -1 par -1 (-1 exclue) vers la gauche
 
             if Board[row][l] == 0:
                 self.availableMoves.append((row, l))
@@ -290,8 +290,8 @@ class Fou(Pieces):
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
-        rowi = row + 1  #Cette fois le mec de la vidéo préfère passer par d'autres variables
-        coli = col + 1  #C'est pas une mauvaise idée mais c'est pas nécessaire non plus, bref
+        rowi = row + 1  #Cette fois le mec de la video prefere passer par d autres variables
+        coli = col + 1  #C est pas une mauvaise idee mais c est pas necessaire non plus, bref
 
         while rowi < len(Board) and coli < len(Board[row]):
             if Board[rowi][coli] == 0:
@@ -357,7 +357,7 @@ class Fou(Pieces):
         else:
             return ChevalDragon(self.square, imagesPromotionsRegnant["chevalDragon"], Joueur.Regnant, "ChevalDragon", self.row, self.col)
 
-#Classe Pion hérite de la classe Piece
+#Classe Pion herite de la classe Piece
 class Pion(Pieces):  
 
     #On appel le constructeur de Piece
@@ -365,17 +365,17 @@ class Pion(Pieces):
     def __init__(self, square, image, cote, type, row, col):
         super().__init__(square, image, cote, type, row, col)
 
-    #Méthode concernant la liste des mouvements possibles pour la pièce (ici le pion)
-    #On vient réinitialiser les mouvements de la pièce en question à son acquisition
-    #Puis en fonction du coté du terrain (Regnant ou Opposant) alors on définit son sens de déplacement
-    ###La méthode peut complétement être simplifié (pour plus tard)
+    #Methode concernant la liste des mouvements possibles pour la piece (ici le pion)
+    #On vient reinitialiser les mouvements de la piece en question a son acquisition
+    #Puis en fonction du cote du terrain (Regnant ou Opposant) alors on definit son sens de deplacement
+    ###La methode peut completement etre simplifie (pour plus tard)
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
         if self.cote == Joueur.Regnant:                            #Si Regnant alors joueur est en haut du plateau
             pionMouvement = 1
             if row + pionMouvement < len(Board):                                      #Si le pion peut avancer (pas au bord du plateau) alors :
-                if Board[row + pionMouvement][col] == 0:                              #S'il n'y a pas de piece devant le pion
+                if Board[row + pionMouvement][col] == 0:                              #S il n y a pas de piece devant le pion
                     self.availableMoves.append((row + pionMouvement, col))            #Il peut avancer
                 else:
                     piece = Board[row + pionMouvement][col]
@@ -444,7 +444,7 @@ class Dragon(Pieces):
         for coli in [self.col-1, self.col, self.col+1]:     #On fait la ligne du haut en premier (les 3 cases en haut de la piece)
             if rowi >= 0 and rowi < len(Board):
                 if coli >= 0 and coli < len(Board[rowi]):
-                    if coli != self.col or rowi != self.row:        #Pour éviter de pouvoir faire bouger le roi sur lui même (sur place)
+                    if coli != self.col or rowi != self.row:        #Pour eviter de pouvoir faire bouger le roi sur lui meme (sur place)
                         if Board[rowi][coli] == 0:
                             self.availableMoves.append((rowi, coli))
                         elif Board[rowi][coli].cote != self.cote:
@@ -457,7 +457,7 @@ class Dragon(Pieces):
         self.kingLigneHautBas(row, Board)
         self.kingLigneHautBas(row + 1, Board)
 
-        for i in range(row+1, len(Board)): #Vers le bas jusqu'au bors du tableau
+        for i in range(row+1, len(Board)): #Vers le bas jusqu au bors du tableau
 
             if Board[i][col] == 0:
                 self.availableMoves.append((i, col))
@@ -468,7 +468,7 @@ class Dragon(Pieces):
             else:
                 break
 
-        for j in range(row-1, -1, -1):  #On va de row-1 à -1 avec un pas de -1 par -1 (-1 exclue) vers le haut
+        for j in range(row-1, -1, -1):  #On va de row-1 a -1 avec un pas de -1 par -1 (-1 exclue) vers le haut
 
             if Board[j][col] == 0:
                 self.availableMoves.append((j, col))
@@ -490,7 +490,7 @@ class Dragon(Pieces):
             else:
                 break
 
-        for l in range(col-1, -1, -1):  #On va de col-1 à -1 avec un pas de -1 par -1 (-1 exclue) vers la gauche
+        for l in range(col-1, -1, -1):  #On va de col-1 a -1 avec un pas de -1 par -1 (-1 exclue) vers la gauche
 
             if Board[row][l] == 0:
                 self.availableMoves.append((row, l))
@@ -511,7 +511,7 @@ class ChevalDragon(Pieces):
         for coli in [self.col-1, self.col, self.col+1]:     #On fait la ligne du haut en premier (les 3 cases en haut de la piece)
             if rowi >= 0 and rowi < len(Board):
                 if coli >= 0 and coli < len(Board[rowi]):
-                    if coli != self.col or rowi != self.row:        #Pour éviter de pouvoir faire bouger le roi sur lui même (sur place)
+                    if coli != self.col or rowi != self.row:        #Pour eviter de pouvoir faire bouger le roi sur lui meme (sur place)
                         if Board[rowi][coli] == 0:
                             self.availableMoves.append((rowi, coli))
                         elif Board[rowi][coli].cote != self.cote:
@@ -524,8 +524,8 @@ class ChevalDragon(Pieces):
         self.kingLigneHautBas(row, Board)
         self.kingLigneHautBas(row + 1, Board)
 
-        rowi = row + 1  #Cette fois le mec de la vidéo préfère passer par d'autres variables
-        coli = col + 1  #C'est pas une mauvaise idée mais c'est pas nécessaire non plus, bref
+        rowi = row + 1  #Cette fois le mec de la video prefere passer par d autres variables
+        coli = col + 1  #C est pas une mauvaise idee mais c est pas necessaire non plus, bref
 
         while rowi < len(Board) and coli < len(Board[row]):
             if Board[rowi][coli] == 0:

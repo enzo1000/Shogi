@@ -8,8 +8,8 @@ class Fou(Pieces):
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
-        rowi = row + 1  #Cette fois le mec de la vidéo préfère passer par d'autres variables
-        coli = col + 1  #C'est pas une mauvaise idée mais c'est pas nécessaire non plus, bref
+        rowi = row + 1  #Cette fois le mec de la video prefere passer par d autres variables
+        coli = col + 1  #C est pas une mauvaise idee mais c est pas necessaire non plus, bref
 
         while rowi < len(Board) and coli < len(Board[row]):
             if Board[rowi][coli] == 0:

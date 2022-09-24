@@ -20,7 +20,7 @@ class Lancier(Pieces):
             
 
         if self.cote == Joueur.Opposant:   
-            for i in range(row+1, len(Board)): #Vers le bas jusqu'au bors du tableau
+            for i in range(row+1, len(Board)): #Vers le bas jusqu au bors du tableau
 
                 if Board[i][col] == 0:
                     self.availableMoves.append((i, col))

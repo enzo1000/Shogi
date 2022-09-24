@@ -1,6 +1,6 @@
 from .Pieces import *
 
-#Classe Pion hérite de la classe Piece
+#Classe Pion herite de la classe Piece
 class Pion(Pieces):  
 
     #On appel le constructeur de Piece
@@ -8,10 +8,10 @@ class Pion(Pieces):
     def __init__(self, square, image, cote, type, row, col):
         super().__init__(square, image, cote, type, row, col)
 
-    #Méthode concernant la liste des mouvements possibles pour la pièce (ici le pion)
-    #On vient réinitialiser les mouvements de la pièce en question à son acquisition
-    #Puis en fonction du coté du terrain (Regnant ou Opposant) alors on définit son sens de déplacement
-    ###La méthode peut complétement être simplifié (pour plus tard)
+    #Methode concernant la liste des mouvements possibles pour la piece (ici le pion)
+    #On vient reinitialiser les mouvements de la piece en question a son acquisition
+    #Puis en fonction du cote du terrain (Regnant ou Opposant) alors on definit son sens de deplacement
+    ###La methode peut completement etre simplifie (pour plus tard)
     def getAvailableMoves(self, row, col, Board):
         self.clearAvailableMoves()
 
@@ -22,7 +22,7 @@ class Pion(Pieces):
             pionMouvement = -1
 
             if row + pionMouvement >= 0:                                      #Si le pion peut avancer (pas au bord du plateau) alors :
-                if Board[row + pionMouvement][col] == 0:                          #S'il n'y a pas de piece devant le pion
+                if Board[row + pionMouvement][col] == 0:                          #S il n y a pas de piece devant le pion
                     self.availableMoves.append((row + pionMouvement, col))            #Il peut avancer
                 else:
                     piece = Board[row + pionMouvement][col]

@@ -5,11 +5,11 @@ from .Joueur import *
 from .pieces.Pieces import *
 from copy import copy
 
-#Classe qui sert d'interface pour le terrain, elle sert à actualiser la position des pièces
-# à changer le tour du joueur et à afficher les mouvements possibles
+#Classe qui sert d interface pour le terrain, elle sert a actualiser la position des pieces
+# a changer le tour du joueur et a afficher les mouvements possibles
 
 class Game:
-    #Une partie prend une largeur, une hauteur, un nombres de colonnes ainsi que de lignes en plus d'une fenêtre et d'un nombres de carreaux
+    #Une partie prend une largeur, une hauteur, un nombres de colonnes ainsi que de lignes en plus d une fenetre et d un nombres de carreaux
     def __init__(self, Width, Height, Rows, Cols, square, window):
         self.window = window
         self.Board = Board(Width, Height, Rows, Cols, square, window)
@@ -21,16 +21,16 @@ class Game:
         self.RegnantPiecesPara = []
         self.OpposantPiecesPara = []
 
-    #Sert à afficher les pièces à leurs nouvel emplacement
-    #Est appelé à chaques frames (60/s)
+    #Sert a afficher les pieces a leurs nouvel emplacement
+    #Est appele a chaques frames (60/s)
     def updateWindow(self):
         self.Board.drawBoard()      #Construit le terrain avec un fond marron et des cases blanches
-        self.Board.drawPieces()     #Avec l'utilisation de drawPiece permet d'actualiser toutes les pièces sur le terrain
+        self.Board.drawPieces()     #Avec l utilisation de drawPiece permet d actualiser toutes les pieces sur le terrain
         self.Board.drawSide()
-        self.drawAvailableMoves()   #Affiche en vert les cases où la pièce peut se déplacer
+        self.drawAvailableMoves()   #Affiche en vert les cases où la piece peut se deplacer
         self.drawPromotion()
         self.drawPara()
-        pygame.display.update()     #Actualise l'écran
+        pygame.display.update()     #Actualise l ecran
 
     def checkGame(self):
         if self.checkmate(self.Board):
@@ -41,7 +41,7 @@ class Game:
                 print("Opposant wins")
                 return True
 
-    #On récupère la liste entière des déplacements possible par l'adversaire
+    #On recupere la liste entiere des deplacements possible par l adversaire
     def enemiesMoves(self, piece, Board):
         enemiesMoves = []
         for r in range(len(Board)):
@@ -53,7 +53,7 @@ class Game:
                             enemiesMoves.append(move)
         return enemiesMoves
 
-    #On a déjà fait une méthode similaire dans pièce mais ici on vient la refaire pour plus de faciliter
+    #On a deja fait une methode similaire dans piece mais ici on vient la refaire pour plus de faciliter
     def getKingPos(self, Board):
         for r in range(len(Board)):
             for c in range(len(Board[r])):
@@ -65,16 +65,16 @@ class Game:
                         if Board[r][c].type == "GeneralDeJade" and Board[r][c].cote == self.turn:
                             return (r,c)
 
-    #Simule le déplacement d'une pièce à partir des coordonnées row, col dudit déplacement
-    #Peut être supprimé dans le cas d'une règle sans vérification d'échec et mat
+    #Simule le deplacement d une piece a partir des coordonnees row, col dudit deplacement
+    #Peut etre supprime dans le cas d une regle sans verification d echec et mat
     def simulateMove(self, piece, row, col):
         if piece == self.Board.Board[row][col]:
             print("YMCMB")
 
         print(self.Board.Board[row][col])
 
-        pieceRow, pieceCol = piece.row, piece.col   #On récupère les coordonnées (lignes) de la pièce à déplacer
-        savePiece = self.Board.Board[row][col]      #On récupère le placement de la pièce à l'état "avant déplacement"
+        pieceRow, pieceCol = piece.row, piece.col   #On recupere les coordonnees (lignes) de la piece a deplacer
+        savePiece = self.Board.Board[row][col]      #On recupere le placement de la piece a l etat "avant deplacement"
 
         if self.Board.Board[row][col] != 0:
             self.Board.Board[row][col] = 0
@@ -82,7 +82,7 @@ class Game:
         self.Board.Board[piece.row][piece.col], self.Board.Board[row][col] = self.Board.Board[row][col], self.Board.Board[piece.row][piece.col]
 
         kingPos = self.getKingPos(self.Board.Board)
-        if kingPos in self.enemiesMoves(piece, self.Board.Board): #Si le roi est en dangé sur sa nouvelle case alors on cancel le move.
+        if kingPos in self.enemiesMoves(piece, self.Board.Board): #Si le roi est en dange sur sa nouvelle case alors on cancel le move.
             piece.row, piece.col = pieceRow, pieceCol
             self.Board[pieceRow][pieceCol] = piece
             self.Board.Board[row][col] = savePiece
@@ -93,7 +93,7 @@ class Game:
             self.Board.Board[pieceRow][pieceCol] = savePiece
             return True
 
-    #Pourquoi faire ? Copie de enemiesMoves mais cette fois de notre coté du terrain et sans le roi ?
+    #Pourquoi faire ? Copie de enemiesMoves mais cette fois de notre cote du terrain et sans le roi ?
     def possibleMoves(self, Board):
         possibleMoves = []
         for r in range(len(Board)):
@@ -111,12 +111,12 @@ class Game:
         if kingPos is not None:
             getKing = Board.getPiece(kingPos[0], kingPos[1])
         
-            #On créer un ensemble avec la commande set
-            kingAvailableMoves = set(getKing.getAvailableMoves(kingPos[0], kingPos[1], Board.Board))   #On récupère les coups du roi
-            enemiesMovesSet = set(self.enemiesMoves(getKing, Board.Board))  #On récupère les coups de l'ennemie
-            kingMoves = kingAvailableMoves - enemiesMovesSet    #On récupère les coups possible pour le roi 
-            set1 = kingAvailableMoves.intersection(enemiesMovesSet) #On récupère les déplacements du roi
-            possibleMovesToDef = set1.intersection(self.possibleMoves(Board.Board)) #On récupère les pièces que l'on peut utiliser pour protéger le roi (je doute de la fonctionnalité du truc)
+            #On creer un ensemble avec la commande set
+            kingAvailableMoves = set(getKing.getAvailableMoves(kingPos[0], kingPos[1], Board.Board))   #On recupere les coups du roi
+            enemiesMovesSet = set(self.enemiesMoves(getKing, Board.Board))  #On recupere les coups de l ennemie
+            kingMoves = kingAvailableMoves - enemiesMovesSet    #On recupere les coups possible pour le roi 
+            set1 = kingAvailableMoves.intersection(enemiesMovesSet) #On recupere les deplacements du roi
+            possibleMovesToDef = set1.intersection(self.possibleMoves(Board.Board)) #On recupere les pieces que l on peut utiliser pour proteger le roi (je doute de la fonctionnalite du truc)
             if len(kingMoves) == 0 and len(kingAvailableMoves) != 0 and possibleMovesToDef == 0:
                 return True
             else:
@@ -124,12 +124,12 @@ class Game:
         else:
             return True
 
-    #Réinitialise le placement des pièces sur le plateau
+    #Reinitialise le placement des pieces sur le plateau
     def reset(self):
-        self.Board = Board(self.Board.width, self.Board.height, rows, cols, square, self.window)    #Re créer le plateau à partir des informations dans constantes
-        self.selected = None    #réinitialise la valeur de selected
-        self.RegnantPiecesLeft, self.OpposantPiecesLeft = 20,20 #Réinitialise le nb de pièces de chaques joueur
-        self.validMoves = []    #réinitialise les déplacements disponibles
+        self.Board = Board(self.Board.width, self.Board.height, rows, cols, square, self.window)    #Re creer le plateau a partir des informations dans constantes
+        self.selected = None    #reinitialise la valeur de selected
+        self.RegnantPiecesLeft, self.OpposantPiecesLeft = 20,20 #Reinitialise le nb de pieces de chaques joueur
+        self.validMoves = []    #reinitialise les deplacements disponibles
 
     #Change le tour du joueur
     def changeTurn(self):
@@ -138,48 +138,48 @@ class Game:
         else:
             self.turn = Joueur.Regnant
 
-    #Méthode privée servant à déplacer une pièce dans le jeu appelé au cours de self.select()  
+    #Methode privee servant a deplacer une piece dans le jeu appele au cours de self.select()  
     def _move(self, rowVisee, colVisee):
         rowInit, colInit = self.selected.row, self.selected.col
-        caseVisee = self.Board.getPiece(rowVisee, colVisee)                       #On vient récupérer la case visée
-        if self.selected and (rowVisee, colVisee) in self.validMoves:             #Si la piece qui doit faire le mouvement et la case sélectionnée sont dans la liste validMoves (fonctionne)
-            if caseVisee == 0 or caseVisee.cote != self.selected.cote:  #Si la case visée pour le mouvement est vide ou correspond à une pièce adverse
-                #if self.simulateMove(self.selected, row, col):         #Cette méthode pose pb pour le déroulé du programme, il faut l'investiguer
+        caseVisee = self.Board.getPiece(rowVisee, colVisee)                       #On vient recuperer la case visee
+        if self.selected and (rowVisee, colVisee) in self.validMoves:             #Si la piece qui doit faire le mouvement et la case selectionnee sont dans la liste validMoves (fonctionne)
+            if caseVisee == 0 or caseVisee.cote != self.selected.cote:  #Si la case visee pour le mouvement est vide ou correspond a une piece adverse
+                #if self.simulateMove(self.selected, row, col):         #Cette methode pose pb pour le deroule du programme, il faut l investiguer
 
                 self.remove(self.Board.Board, self.Board.Board[rowVisee][colVisee], rowVisee, colVisee)
                 self.Board.move(self.selected, rowVisee, colVisee)
                 self.validMoves = []    #On vide la liste des mouvements
 
-                #Demander à l'utilisateur s'il veut promouvoir sa pièce (Après un déplacement et donc en entrée de zone ou en sortie)
-                #Met à true l'attribut wasPromotable et donc après chaques mouvements, propose au joueur de promouvoir
+                #Demander a l utilisateur s il veut promouvoir sa piece (Apres un deplacement et donc en entree de zone ou en sortie)
+                #Met a true l attribut wasPromotable et donc apres chaques mouvements, propose au joueur de promouvoir
                 self.promotionPossible(rowVisee, rowInit)
                 if self.selected.isPromotable:
                     self.promotionSelected()
 
                 self.changeTurn()       #On change de tour
                 self.selected.isPromotable = False
-                self.selected = None    #On enlève la pièce de la sélectionne
+                self.selected = None    #On enleve la piece de la selectionne
                 return True
         return False
 
-    #Méthode visant à savoir après le mouvement du joueur s'il veut promouvoir sa pièce
-    #Si le joueur vient cliquer sur la pièce alors elle est promu
+    #Methode visant a savoir apres le mouvement du joueur s il veut promouvoir sa piece
+    #Si le joueur vient cliquer sur la piece alors elle est promu
     def promotionSelected(self):
         piece = self.selected
-        #On doit récupérer les coordonnées du clique afin d'identifier si l'on clique sur la pièce
-        #Pour ça on appel la méthode getPosition dans Shogi.py et aussi la méthode select
-        # qui a un if en plus dans le cas de si la pièce peu être promu
+        #On doit recuperer les coordonnees du clique afin d identifier si l on clique sur la piece
+        #Pour ca on appel la methode getPosition dans Shogi.py et aussi la methode select
+        # qui a un if en plus dans le cas de si la piece peu etre promu
         promotionLoop = False
-        while promotionLoop == False:           #Tant que le joueur n'a pas cliqué
+        while promotionLoop == False:           #Tant que le joueur n a pas clique
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:   #Si l'on quitte le jeu
+                if event.type == pygame.QUIT:   #Si l on quitte le jeu
                     quit()
 
-                if event.type == pygame.MOUSEBUTTONDOWN:                            #Si l'utilisateur appuie sur un bouton
-                    if pygame.mouse.get_pressed()[0]:                               #Si c'est un clique gauche
-                        location = pygame.mouse.get_pos()                           #On vient récupérer les coordonnées du clique   #Faudra mettre en place une vérification sui le joueur clique en dehors du terrain
-                        row, col = self.getPosition(location[0], location[1])       #On vient récupérer la case du clique
-                        if piece.row == row and piece.col == col:   #Si l'utilisateur clique sur la pièce alors
+                if event.type == pygame.MOUSEBUTTONDOWN:                            #Si l utilisateur appuie sur un bouton
+                    if pygame.mouse.get_pressed()[0]:                               #Si c est un clique gauche
+                        location = pygame.mouse.get_pos()                           #On vient recuperer les coordonnees du clique   #Faudra mettre en place une verification sui le joueur clique en dehors du terrain
+                        row, col = self.getPosition(location[0], location[1])       #On vient recuperer la case du clique
+                        if piece.row == row and piece.col == col:   #Si l utilisateur clique sur la piece alors
                             #Promotion
                             self.Board.Board[row][col] = piece.promoted()
                             promotionLoop = True
@@ -187,18 +187,18 @@ class Game:
                             #Pas de promotion
                             promotionLoop = True
 
-    #Méthode visant à savoir si une pièce rentre ou sort de la zone de promotion et donc de si elle peut être promu
+    #Methode visant a savoir si une piece rentre ou sort de la zone de promotion et donc de si elle peut etre promu
     def promotionPossible(self, row, rowInit):
         piece = self.selected
         if piece.type not in pasPromotable:
             if piece.cote == Joueur.Opposant:
-                if row <= 2:                        #Si on est ou qu'on rentre dans la zone de promotion
+                if row <= 2:                        #Si on est ou qu on rentre dans la zone de promotion
                     piece.isPromotable = True
                 elif rowInit <= 2:                  #Si on sort de la zone de promotion
                     piece.isPromotable = True
                 else:
                     piece.isPromotable = False
-            else:                                   #Coté regnant cette fois
+            else:                                   #Cote regnant cette fois
                 if row >= 6:
                     piece.isPromotable = True
                 elif rowInit >= 6:
@@ -207,22 +207,22 @@ class Game:
                     piece.isPromotable = False
             self.updateWindow()
 
-    #Méthode de débug
+    #Methode de debug
     def printBoard(self):
         for row in range(0, len(self.Board.Board)):
             for col in range(0, len(self.Board.Board[row])):
                 print(self.Board.Board[row][col])
 
-    #Fonction qui permet, à partir d'un clique du joueur, de sélectionner la pièce sur laquelle le joueur a cliqué
-    #Si le joueur a cliqué sur une pièce, cette pièce est alors stockée dans l'attribut selected et on affiche ses mouvements
-    #Sinon on supprime les mouvements affichés et on change de pièce
+    #Fonction qui permet, a partir d un clique du joueur, de selectionner la piece sur laquelle le joueur a clique
+    #Si le joueur a clique sur une piece, cette piece est alors stockee dans l attribut selected et on affiche ses mouvements
+    #Sinon on supprime les mouvements affiches et on change de piece
     def select(self, location):
-        row, col = self.getPosition(location[0], location[1])    #On vient récupérer la case du clique
-        if self.selected:               #Si on a déjà sélectionné une pièce
-            move = self._move(row, col) #Si on clique sur un déplacement possible pour la pièce sélectionnée, déplace la pièce et retourne True
-            if not move:                #Si on clique sur une case qui n'est pas un déplacement de self.selected
-                self.selected = None    #On déselectionne la pièce 
-                self.select(location)   #On re boucle sur la méthode
+        row, col = self.getPosition(location[0], location[1])    #On vient recuperer la case du clique
+        if self.selected:               #Si on a deja selectionne une piece
+            move = self._move(row, col) #Si on clique sur un deplacement possible pour la piece selectionnee, deplace la piece et retourne True
+            if not move:                #Si on clique sur une case qui n est pas un deplacement de self.selected
+                self.selected = None    #On deselectionne la piece 
+                self.select(location)   #On re boucle sur la methode
         else:
             piece = self.Board.getPiece(row, col)
             if piece != 0 and self.turn == piece.cote:
@@ -231,7 +231,7 @@ class Game:
             else:
                 self.validMoves = []
 
-    #Supprime une pièce du terrain avec comptage de points
+    #Supprime une piece du terrain avec comptage de points
     def remove(self, board, piece, row, col):
         if board[row][col] != 0:
             if board[row][col].cote == Joueur.Regnant:
@@ -245,21 +245,21 @@ class Game:
         #print("RegnantPiecesLeft : ", self.RegnantPiecesLeft)
         #print("OpposantPiecesLeft : ", self.OpposantPiecesLeft)
 
-    #Affiche en vert les cases où la pièce peut se déplacer (utile pour les débutant et le débug)
+    #Affiche en vert les cases où la piece peut se deplacer (utile pour les debutant et le debug)
     def drawAvailableMoves(self):
         if len(self.validMoves) > 0:
             for pos in self.validMoves:
                 row, col = pos[0], pos[1]
-                pygame.draw.circle(self.window, green, (col*self.square + self.square//2, row*self.square + self.square//2), self.square//8) #Pour bien mettre au centre du carré et pas dans un coin
+                pygame.draw.circle(self.window, green, (col*self.square + self.square//2, row*self.square + self.square//2), self.square//8) #Pour bien mettre au centre du carre et pas dans un coin
 
-    #Affiche un rond rouge sur la pièce qui peut être promu
+    #Affiche un rond rouge sur la piece qui peut etre promu
     def drawPromotion(self):
         if self.selected is not None and self.selected.isPromotable == True:
             row, col = self.selected.row, self.selected.col
             pygame.draw.circle(self.window, red, (col*self.square + self.square//2, row*self.square + self.square//2), self.square//8)
 
-    def getPosition(self, x, y):  #Méthode servant à convertir la position du clique de la souris en case de clique de la souris
-        row = y//square     #Ligne égale à position du clique divisé par nb de case du jeu
+    def getPosition(self, x, y):  #Methode servant a convertir la position du clique de la souris en case de clique de la souris
+        row = y//square     #Ligne egale a position du clique divise par nb de case du jeu
         col = x//square     # // mais avec les colonnes
         return row, col
 
@@ -358,10 +358,10 @@ class Game:
                 else:
                     print("Pas assez de " + str(pieceSelect.type))
 
-    #TODO, séparer la méthode en 2 comme pour promotion
-    def dropPara(self, piece, cimetiereRemove):      #Vérifier les règles de parachutage
+    #TODO, separer la methode en 2 comme pour promotion
+    def dropPara(self, piece, cimetiereRemove):      #Verifier les regles de parachutage
 
-        pieceFictive = copy(piece)      #Pour ne pas copier la référence
+        pieceFictive = copy(piece)      #Pour ne pas copier la reference
         BoardFictif = copy(self.Board)
 
         for row in range(0, len(BoardFictif.Board)):
@@ -370,9 +370,9 @@ class Game:
                     canBePara = True
 
                     if piece.type == "Pion":
-                        canBePara = self.pionVerifColPara(col, BoardFictif.Board)  #Interdit sur une même colonne où ce situe un pion (non promu)
+                        canBePara = self.pionVerifColPara(col, BoardFictif.Board)  #Interdit sur une meme colonne où ce situe un pion (non promu)
                     if canBePara:
-                        canBePara = self.pieceDeplacementPara(pieceFictive, row)   #Verif si la piece peut se déplacer de par la création d'un board fictif
+                        canBePara = self.pieceDeplacementPara(pieceFictive, row)   #Verif si la piece peut se deplacer de par la creation d un board fictif
                     #TODO Interdit de mettre echec et mat le roi avec un pion
                     if canBePara:
                         self.validPara.append((row, col))
@@ -380,15 +380,15 @@ class Game:
         self.updateWindow()
         
         canBePara2 = True
-        while canBePara2 == True:                   #Tant que le joueur n'a pas cliqué
+        while canBePara2 == True:                   #Tant que le joueur n a pas clique
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:       #Si l'on quitte le jeu
+                if event.type == pygame.QUIT:       #Si l on quitte le jeu
                     quit()
 
-                if event.type == pygame.MOUSEBUTTONDOWN:                            #Si l'utilisateur appuie sur un bouton
-                    if pygame.mouse.get_pressed()[0]:                               #Si c'est un clique gauche
-                        location = pygame.mouse.get_pos()                           #On vient récupérer les coordonnées du clique   #Faudra mettre en place une vérification sui le joueur clique en dehors du terrain
-                        rowClique, colClique = self.getPosition(location[0], location[1])       #On vient récupérer la case du clique
+                if event.type == pygame.MOUSEBUTTONDOWN:                            #Si l utilisateur appuie sur un bouton
+                    if pygame.mouse.get_pressed()[0]:                               #Si c est un clique gauche
+                        location = pygame.mouse.get_pos()                           #On vient recuperer les coordonnees du clique   #Faudra mettre en place une verification sui le joueur clique en dehors du terrain
+                        rowClique, colClique = self.getPosition(location[0], location[1])       #On vient recuperer la case du clique
                         if (rowClique, colClique) in self.validPara:
                             #Parachutage
                             piece.row = rowClique
@@ -398,7 +398,7 @@ class Game:
                             print(self.Board.Board[rowClique][colClique])
 
                             self.validPara = []
-                            #Pas forcément le plus jolie mais j'ai pas trouvé mieux pour le moment
+                            #Pas forcement le plus jolie mais j ai pas trouve mieux pour le moment
                             if self.turn == Joueur.Opposant:
                                 self.OpposantPiecesPara.remove(cimetiereRemove)
                             else:
@@ -413,11 +413,11 @@ class Game:
     def pieceDeplacementPara(self, pieceFictive, row):
         BoardFictif = []
         for i in range(0, rows):
-            BoardFictif.append([0 for i in range(3)])  #Pour 9 lignes, créer un tableau a 3 colonnes
+            BoardFictif.append([0 for i in range(3)])  #Pour 9 lignes, creer un tableau a 3 colonnes
         #print(BoardFictif)
         if self.turn == Joueur.Opposant:
             if row < 3:
-                BoardFictif[row][1] = pieceFictive  #On place la piece sur la bonne ligne (colonne pas importante donc placé au centre)
+                BoardFictif[row][1] = pieceFictive  #On place la piece sur la bonne ligne (colonne pas importante donc place au centre)
                 moves = BoardFictif[row][1].getAvailableMoves(row, 1, BoardFictif)
                 #print(BoardFictif)
                 #print(moves)
@@ -435,8 +435,8 @@ class Game:
     def pionVerifColPara(self, col, BoardFictif):
         for rowi in range (0, len(BoardFictif)):
             if BoardFictif[rowi][col] != 0:                    #Si une piece
-                if BoardFictif[rowi][col].cote == self.turn:   #Si de la même équipe
-                    if BoardFictif[rowi][col].type == "Pion":  #Si c'est un Pion (non promu)
+                if BoardFictif[rowi][col].cote == self.turn:   #Si de la meme equipe
+                    if BoardFictif[rowi][col].type == "Pion":  #Si c est un Pion (non promu)
                         return False
         return True
 
@@ -444,4 +444,4 @@ class Game:
         if len(self.validPara) > 0:
             for pos in self.validPara:
                 row, col = pos[0], pos[1]
-                pygame.draw.circle(self.window, cyan, (col*self.square + self.square//2, row*self.square + self.square//2), self.square//8) #Pour bien mettre au centre du carré et pas dans un coin
+                pygame.draw.circle(self.window, cyan, (col*self.square + self.square//2, row*self.square + self.square//2), self.square//8) #Pour bien mettre au centre du carre et pas dans un coin

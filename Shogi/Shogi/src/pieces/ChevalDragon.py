@@ -6,8 +6,8 @@ class ChevalDragon(Pieces):
 
     def kingLigneHautBas(self, rowi, Board):
         for coli in [self.col-1, self.col, self.col+1]:     #On fait la ligne du haut en premier (les 3 cases en haut de la piece)
-            if coli != self.col or rowi != self.row:       #Pour éviter de pouvoir faire bouger le roi sur lui même (sur place)
-                if Board[rowi][coli] >= 0 and Board[rowi][coli] < len(Board[self.row]):   #Si on ne déborde pas alors 
+            if coli != self.col or rowi != self.row:       #Pour eviter de pouvoir faire bouger le roi sur lui meme (sur place)
+                if Board[rowi][coli] >= 0 and Board[rowi][coli] < len(Board[self.row]):   #Si on ne deborde pas alors 
                     if Board[rowi][coli] == 0:
                         self.availableMoves.append((rowi, coli))
                     elif Board[rowi][coli].cote != self.cote:
@@ -20,8 +20,8 @@ class ChevalDragon(Pieces):
         self.kingLigneHautBas(self, row, Board)
         self.kingLigneHautBas(self, row + 1, Board)
 
-        rowi = row + 1  #Cette fois le mec de la vidéo préfère passer par d'autres variables
-        coli = col + 1  #C'est pas une mauvaise idée mais c'est pas nécessaire non plus, bref
+        rowi = row + 1  #Cette fois le mec de la video prefere passer par d autres variables
+        coli = col + 1  #C est pas une mauvaise idee mais c est pas necessaire non plus, bref
 
         while rowi < len(Board) and coli < len(Board[row]):
             if Board[rowi][coli] == 0:
